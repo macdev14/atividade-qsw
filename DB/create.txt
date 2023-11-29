@@ -48,3 +48,11 @@ CREATE TABLE inscricoes (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id),
     FOREIGN KEY (turma_id) REFERENCES turmas(turma_id)
 );
+
+CREATE TABLE lista_de_espera (
+    lista_de_espera_id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    turma_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id),
+    FOREIGN KEY (turma_id) REFERENCES turmas(turma_id)
+);

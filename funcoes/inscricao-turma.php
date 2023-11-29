@@ -6,6 +6,15 @@
         session_start();
     }
 
+    function adicionar_a_lista_de_espera($conexao, $usuario_id, $turma_id){
+        $sql = "INSERT INTO lista_de_espera (usuario_id, turma_id)
+        VALUES (:usuario_id, :turma_id)";
+         $stmt = $conexao->prepare($sql);
+         $stmt->bindParam(':usuario_id', $usuario_id);
+         $stmt->bindParam(':turma_id', $turma_id);
+         $stmt->execute();
+    }
+
     $usuarioId = $_SESSION['id']; 
 
     if(isset($_POST['turmas'])) {
@@ -21,7 +30,8 @@
             $stmt->execute();
             $rowTurmaFechada = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($rowTurmaFechada && $rowTurmaFechada['turma_fechada']) {
-                echo 'A turma ' . $rowTurmaFechada['nome'] . ' da disciplina ' . $disciplina . ' está fechada.';
+                adicionar_a_lista_de_espera($conexao, $usuarioId, $turmaId);
+                echo 'A turma ' . $rowTurmaFechada['nome'] . ' da disciplina ' . $disciplina . ' está fechada. Você foi adicionado a lista de espera.';
                 exit();
             }
 
