@@ -2,9 +2,6 @@
     include('../protegido.php');
     include('../conexao.php');
 
-    if (!isset($_SESSION)) {
-        session_start();
-    }
 
     function adicionar_a_lista_de_espera($conexao, $usuario_id, $turma_id){
         $sql = "INSERT INTO lista_de_espera (usuario_id, turma_id)
@@ -19,11 +16,12 @@
 
     if(isset($_POST['turmas'])) {
         $turmasSelecionadas = json_decode($_POST['turmas'], true);
-
+        $vazio = count($turmasSelecionadas) < 1;
+        if ($vazio) { echo 'Selecione uma turma'; exit;}
         foreach ($turmasSelecionadas as $turma) {
             $disciplina = $turma['disciplina'];
             $turmaId = $turma['turmaId'];
-
+            
             $sql = "SELECT turma_fechada, nome FROM turmas WHERE turma_id = :turma_id";
             $stmt = $conexao->prepare($sql);
             $stmt->bindParam(':turma_id', $turmaId);
@@ -94,10 +92,13 @@
             }
         }
 
-        $dataAtual = date('Y-m-d');
+        $dataAtual = gmdate('Y-m-d');
 
         $sql = "INSERT INTO inscricoes (usuario_id, turma_id, data_inscricao)
         VALUES (:usuario_id, :turma_id, :data_inscricao)";
+
+        
+
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':usuario_id', $usuarioId);
         $stmt->bindParam(':turma_id', $turmaId);

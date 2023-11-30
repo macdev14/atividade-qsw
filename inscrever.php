@@ -3,14 +3,6 @@
     include('conexao.php');
     require_once 'header.php';
 ?>
-<script>
-    function limparSelecao(disciplina) {
-        var radioButtons = document.getElementsByName('turma_' + disciplina);
-        for (var i = 0; i < radioButtons.length; i++) {
-            radioButtons[i].checked = false;
-        }
-    }
-</script>
 
 <section>
     <div class="container my-4">
