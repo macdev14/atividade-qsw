@@ -2,7 +2,8 @@
   ini_set('display_errors', '1');
   ini_set('display_startup_errors', '1');
   error_reporting(E_ALL);
-    include('conexao.php');
+  include('protegido.php');
+ include('conexao.php');
 
     if (isset($_POST['email']) && isset($_POST['password'])) {
         $email = $_POST['email'];
