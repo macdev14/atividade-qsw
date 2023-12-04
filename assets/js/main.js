@@ -1,6 +1,91 @@
 const revisarBtn = document.getElementById('revisarInscricao');
 const confirmarBtn = document.getElementById('confirmarInscricao');
 
+function atualizarNoHistorico(disciplinaId, novoNome) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './funcoes/atualizar-no-historico.php', true); // Atualize o endpoint para o seu script de atualização
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var resp = xhr.responseText;
+                if (resp === "Disciplina atualizada com sucesso.") {
+                    // Disciplina atualizada com sucesso
+                    // Você pode implementar a lógica para atualizar a interface aqui, se necessário
+                    alert(resp);
+                } else {
+                    // Exibição de alerta em caso de erro
+                    alert(resp);
+                }
+            } else {
+                // Exibição de alerta em caso de erro na requisição
+                alert('Erro ao atualizar a disciplina. Por favor, tente novamente.');
+            }
+        }
+    };
+
+    var dados = "disciplina_id=" + disciplinaId + "&novo_nome=" + novoNome; // Ajuste os dados para atualização
+    xhr.send(dados);
+}
+
+function adicionarAoHistorico(disciplina) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './funcoes/adicionar-ao-historico.php', true); // Atualize o endpoint para o seu script de adição
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var resp = xhr.responseText;
+                if (resp === "Disciplina adicionada com sucesso.") {
+                    // Disciplina adicionada com sucesso
+                    // Você pode implementar a lógica para atualizar a interface aqui, se necessário
+                    alert(resp);
+                } else {
+                    // Exibição de alerta em caso de erro
+                    alert(resp);
+                }
+            } else {
+                // Exibição de alerta em caso de erro na requisição
+                alert('Erro ao adicionar a disciplina. Por favor, tente novamente.');
+            }
+        }
+    };
+
+    var dados = "disciplina=" + disciplina; // Ajuste os dados que você precisa passar para a adição
+    xhr.send(dados);
+}
+
+
+function excluirDoHistorico(disciplinaId, elementoVisualId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './funcoes/excluir-do-historico.php', true); // Atualize o endpoint para o seu script de exclusão
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var resp = xhr.responseText;
+                if (resp === "Disciplina excluída com sucesso.") {
+                    // Disciplina excluída com sucesso
+                    var elementoVisual = document.getElementById(elementoVisualId);
+                    if (elementoVisual) {
+                        elementoVisual.remove();
+                    }
+                    alert(resp);
+                } else {
+                    // Exibição de alerta em caso de erro
+                    alert(resp);
+                }
+            } else {
+                // Exibição de alerta em caso de erro na requisição
+                alert('Erro ao excluir a disciplina. Por favor, tente novamente.');
+            }
+        }
+    };
+
+    var dados = "disciplina_id=" + disciplinaId; // Ajuste os dados que você precisa passar para a exclusão
+    xhr.send(dados);
+}
+
 function excluirInscricao(inscricaoId, elementoVisual) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', './funcoes/inscricao-crud.php', true); // Update the endpoint to your delete script
